@@ -1,0 +1,6 @@
+setting up hosting a static web site hosting using s3 bucket 
+add cloudfront distriubution which uses edge location and serves the requests using cached content
+we can set up authentication from cdn to s3 using origin access control
+lly, we can authorize CDN using s3 bucket policy to copy or fetch content from s3 bucket to edge locations.
+additionally, we can use r53 and route the domain to cdn fqdn
+also, we can use certificate manager to use https for secure access
