@@ -1,0 +1,114 @@
+AWS 3-Tier Architecture Hands-On Guide
+1️⃣ Create VPC
+Go to VPC Dashboard → Your VPCs → Create VPC
+Configure:
+Name: my-vpc
+IPv4 CIDR block: 10.0.0.0/16
+Tenancy: Default
+Click Create VPC
+2️⃣ Create Subnets
+
+Public Subnet
+
+Name: public-subnet
+IPv4 CIDR: 10.0.1.0/24
+Auto-assign public IPv4: Enable
+
+Private Subnet
+
+Name: private-subnet
+IPv4 CIDR: 10.0.2.0/24
+Auto-assign public IPv4: Disable
+3️⃣ Create Internet Gateway (IGW)
+Go to Internet Gateways → Create Internet Gateway
+Name: my-igw
+Attach to my-vpc
+4️⃣ Create Route Tables
+
+Public Route Table
+
+Associate with Public Subnet
+Add route: 0.0.0.0/0 → my-igw
+
+Private Route Table
+
+Associate with Private Subnet
+Initially empty; will add NAT route next
+5️⃣ Create NAT Gateway
+Go to NAT Gateways → Create NAT Gateway
+Subnet: Public Subnet
+Allocate New Elastic IP
+Click Create NAT Gateway
+Update Private Route Table:
+Route 0.0.0.0/0 → NAT Gateway
+6️⃣ Create Security Groups
+
+Public SG (Web/ALB)
+
+SSH (22) from your IP
+HTTP (80), HTTPS (443) from anywhere
+
+Private SG (DB/App)
+
+Allow traffic only from Public SG
+Optional: SSH from Public SG
+
+ALB SG
+
+HTTP/HTTPS from anywhere
+7️⃣ Launch EC2 Instances
+
+Public EC2 (Web Tier)
+
+Subnet: Public Subnet
+Attach: Public SG
+User Data to install Apache:
+#!/bin/bash
+sudo yum update -y
+sudo yum install -y httpd
+sudo systemctl start httpd
+sudo systemctl enable httpd
+Verify SSH access from your IP
+
+Private EC2 (App/DB Tier)
+
+Subnet: Private Subnet
+Attach: Private SG
+No public IP
+Connect via jump host (public EC2 SSH)
+8️⃣ Install Database on Private Server (Optional)
+SSH into Public EC2
+From there, SSH into Private EC2
+Install MySQL/PostgreSQL or other DB
+9️⃣ Create Launch Template & Auto Scaling Group (ASG)
+
+Launch Template
+
+AMI: Amazon Linux 2 / Ubuntu
+Instance type: e.g., t3.micro
+Security Group: Public SG
+User Data: install Apache
+
+Auto Scaling Group (ASG)
+
+Subnet: Public Subnet
+Min/Max/Desired instances: e.g., 1/4/2
+Attach Target Group for ALB
+🔟 Create Application Load Balancer (ALB)
+ALB → Subnet: Public Subnet(s)
+Attach ALB SG
+Create Target Group
+Port: 80
+Protocol: HTTP
+Health Check: /
+Create Listener: HTTP 80 → forward to Target Group
+1️⃣1️⃣ Optional: Route 53 Integration
+Create Hosted Zone, e.g., myapp.com
+Create A Record → Alias → ALB
+Users can now access the app via domain
+✅ Benefits
+High Availability → Multiple web servers behind ALB
+Scalability → ASG adds/removes instances automatically
+Security → Private subnet isolated; SGs control traffic
+Internet Access → Public server directly, private via NAT
+DNS & Reliability → ALB + Route 53 provides stable access

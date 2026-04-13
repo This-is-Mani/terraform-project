@@ -1,0 +1,35 @@
+terraform life cycle rule
+
+1.ignore_changes
+2.create_before_destroy
+3.prevent_destroy
+4.replace_triggered_by
+5.pre and post condition
+
+improves the infrastructure managability and openrational lies in it.
+
+1.ignore_changes =  if its enabled,it will not do any changes on terraform resource that we are creating
+
+2.create_before_destroy = it makes sure that when you make any changes to the reosurce and it needs to be recreate the resource, thi will make sure that new resource will be create then destory old one.
+
+3.prevent_destroy = will make sure that you don't do an accidental deletion of the resource
+
+4.replace_triggered_by = set the dependencies between multiple resources
+
+5.pre and post condition = we can add certian validation before creating resource
+
+lifecycle {
+    ignore_changes = [desired_capacity]
+}
+
+lifecycle {
+    create_before_destrpy = true
+    prevent_destroy = true
+}
+
+lifecycle {
+    replace_triggered_by = [
+        aws_security_group.app_sg.id
+        ]
+}
+

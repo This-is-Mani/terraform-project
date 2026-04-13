@@ -1,0 +1,54 @@
+terraform functions
+
+- reusable block of code that takes input and perform some operation then returns the output.
+
+different types of functions;
+
+file
+validate
+lookup
+date and time
+type conversion
+collection
+numeric
+string
+
+---------------------
+
+some of the inbuilt functions on terraform
+
+upper("hello world") => converts into all upper case as "HELLO WORLD"
+
+lower("HELO WORLD") => lly does opposite to upper function
+
+trim("mani","i") => removes i in the output in this case
+
+replace("hello world"," ", "-") => replaces space between hello world into hello-world
+
+substr("hello",0,3) => trims 0 - 3 elements and o/p will have hel
+
+max(2,3,4,5,11) => prints max value
+
+min(-99,22,44,33) => prints min value
+
+length([1,2,3,4,2]) => prints the length
+
+concat([1,2,3],[11,22,33]) => concatinates both and prints 1,2,3,11,22,33 in the list (vertically)
+#won't work on strings
+
+merge({a=1},{b=2}) => merge both as 1, {"a" = 1
+                                        "b" = 2}
+
+#works on strings as well
+
+toset(["a","b","a"]) => converting into set which will eleminate duplicates and output as;
+toset(["a",
+       "b"])
+
+tonumber("25") => coverts string into number 25
+
+tostring(25) => viceversa o/p as "25"
+
+timestamp() => prints date and time
+
+formatdate("DD-MM-YYYY,timestamp()) => gives requested format o/p sa "12-04-2026"

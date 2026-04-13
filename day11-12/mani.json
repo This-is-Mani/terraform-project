@@ -1,0 +1,7 @@
+{
+  "name": "my-instance",
+  "environment": "dev",
+  "instance_type": "t2.micro",
+  "count": 2,
+  "is_active": true
+}

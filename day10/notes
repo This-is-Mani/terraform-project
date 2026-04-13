@@ -1,0 +1,19 @@
+terraform expressions
+
+- helps us to avoid the rewriting the code again and again.
+
+- similar to function as we can reuse the code
+
+there different terraform expressions we have;
+
+conditional expressions - considers true or false
+
+dynamic blocks - helps us to write nested block with multiple values
+
+splat expressions - help us to retrieve multiple values using single line with * operator
+
+----------------------
+
+conditiona;l expressions;
+
+var.env == dev ? var.instance_type = "t2.micro" : var.instance_type = "t3.micro"
