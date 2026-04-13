@@ -1,0 +1,5 @@
+data Resources:
+
+where we don't need to hardcode the value and use filter block to pick the resource details;
+
+like vpc,subnet,ami etc
